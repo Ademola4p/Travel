@@ -11,10 +11,10 @@ using Microsoft.Extensions.Logging;
 
 namespace ExternalApiClient
 {
-    public class SimpleApiTokenManager : IApiTokenManager
+    public class AccessTokenManager : IAccessTokenManager
     {
         private readonly HttpClient _httpClient;
-        private readonly ILogger<SimpleApiTokenManager> _logger;
+        private readonly ILogger<AccessTokenManager> _logger;
         private readonly string _tokenEndpoint;
         private readonly string _apiKey;
         private readonly string _apiSecret;
@@ -22,10 +22,10 @@ namespace ExternalApiClient
         private string _accessToken;
         private DateTime _tokenExpirationTime;
 
-        public SimpleApiTokenManager(
+        public AccessTokenManager(
             HttpClient httpClient,
             IConfiguration configuration,
-            ILogger<SimpleApiTokenManager> logger)
+            ILogger<AccessTokenManager> logger)
         {
             _httpClient = httpClient;
             _logger = logger;
@@ -66,7 +66,7 @@ namespace ExternalApiClient
         }
     }
 
-    public interface IApiTokenManager
+    public interface IAccessTokenManager
     {
         Task<string> GetAccessTokenAsync(CancellationToken cancellationToken = default);
     }

@@ -18,11 +18,11 @@ namespace Travel.AppData
 {
     public class TravelService
     {
-        private readonly IApiTokenManager _accessTokenManager;
+        private readonly IAccessTokenManager _accessTokenManager;
         private readonly HttpClient _httpClient;
         private readonly string _baseUrl;
 
-        public TravelService(IApiTokenManager accessTokenManager, IConfiguration configuration)
+        public TravelService(IAccessTokenManager accessTokenManager, IConfiguration configuration)
         {
             _accessTokenManager = accessTokenManager;
             _httpClient = new HttpClient();
@@ -54,10 +54,12 @@ namespace Travel.AppData
         {
             try
             {
+                //Get hotels(hotelIds) in specified  city.
                 var hotelIds = await GetHotelIDSAsync(city, cancellationToken);
                 if (string.IsNullOrEmpty(hotelIds))
                     return new List<HotelOfferData>();
 
+                //Get hotel offers from set of hotels.
                 var endpoint = $"/v3/shopping/hotel-offers?hotelIds={hotelIds}&adults=1&checkInDate={checkInDate}&roomQuantity=1&paymentPolicy=NONE&bestRateOnly=true";
                 using var request = await CreateRequestAsync(HttpMethod.Get, endpoint, cancellationToken);
 
@@ -82,6 +84,7 @@ namespace Travel.AppData
             return string.Join(",", output);
         }
 
+        //Get hotels(hotelIds) in specified  city.
         private async Task<List<string>> SearchHotelIDSAsync(string city, CancellationToken cancellationToken = default)
         {
             try
@@ -101,6 +104,8 @@ namespace Travel.AppData
                 return new List<string>();
             }
         }
+
+        //Http Request preparing method.
         private async Task<HttpRequestMessage> CreateRequestAsync(HttpMethod method, string endpoint,
         CancellationToken cancellationToken = default)
         {

@@ -3,12 +3,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Threading;
 using System.Threading.Tasks;
 using Travel.AppData;
-using Travel.AppData.Entities;
 
 namespace Travel
 {
@@ -21,7 +18,7 @@ namespace Travel
                     {
                         try
                         {
-                            var host = CreateHostBuilder(args).Build();      
+                            var host = CreateHostBuilder(args).Build();
                             var travelService = host.Services.GetRequiredService<TravelService>();
 
                             var ui = new ConsoleUI(travelService);
@@ -32,7 +29,7 @@ namespace Travel
                             Console.WriteLine($"Internal Server Error: {ex.Message}");
                         }
                     }).GetAwaiter().GetResult();
-                }
+        }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
         Host.CreateDefaultBuilder(args)
@@ -45,7 +42,7 @@ namespace Travel
             .ConfigureServices((hostContext, services) =>
             {
                 // Register HttpClient
-                services.AddHttpClient<IApiTokenManager, SimpleApiTokenManager>();
+                services.AddHttpClient<IAccessTokenManager, AccessTokenManager>();
 
                 // Register services
                 services.AddScoped<TravelService>();

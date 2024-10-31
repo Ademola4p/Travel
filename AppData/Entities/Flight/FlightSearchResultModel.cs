@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Travel.AppData.Entities.Flight
+﻿namespace Travel.AppData.Entities.Flight
 {
     using System;
     using System.Collections.Generic;
